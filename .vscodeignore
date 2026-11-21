@@ -1,0 +1,13 @@
+.vscode/**
+src/**
+test/**
+webview/**
+scripts/**
+node_modules/**
+docs/**
+*.map
+tsconfig.json
+tsconfig.*.json
+vitest.config.ts
+esbuild.mjs
+**/.DS_Store
