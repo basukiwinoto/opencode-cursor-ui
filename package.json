@@ -1,0 +1,279 @@
+{
+  "name": "opencode-cursor-ui",
+  "displayName": "OpenCode Cursor UI",
+  "description": "Cursor-style Agent and Chat sidebar for VS Code, powered by OpenCode. Detect, install, launch, and drive OpenCode without leaving the editor.",
+  "version": "0.1.1",
+  "publisher": "basukiwinoto",
+  "license": "MIT",
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/basuki/opencode-cursor-ui"
+  },
+  "engines": {
+    "vscode": "^1.106.0"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "secondarySidebar": [
+        {
+          "id": "opencodeCursorUI",
+          "title": "OpenCode",
+          "icon": "resources/opencode.svg"
+        }
+      ]
+    },
+    "views": {
+      "opencodeCursorUI": [
+        {
+          "type": "webview",
+          "id": "opencodeCursorUI.chatView",
+          "name": "Agent",
+          "when": "true"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "opencodeCursorUI.openChat",
+        "title": "Open OpenCode Chat",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.newChat",
+        "title": "New Chat",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.openHistory",
+        "title": "Open Chat History",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.installOpencode",
+        "title": "Install OpenCode",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.startOpencode",
+        "title": "Start OpenCode",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.stopOpencode",
+        "title": "Stop OpenCode",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.restartOpencode",
+        "title": "Restart OpenCode",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.updateOpencode",
+        "title": "Update OpenCode",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.selectModel",
+        "title": "Select Model",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.selectAgent",
+        "title": "Select Agent",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.setDefaultModel",
+        "title": "Set Default Model (OpenCode Config)",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.setProviderKey",
+        "title": "Connect Provider (API Key)",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.addProvider",
+        "title": "Add Custom Provider",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.setDefaultAgent",
+        "title": "Set Default Agent (OpenCode Config)",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.openRuntimeSettings",
+        "title": "Open Runtime Settings",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.openControlCenter",
+        "title": "Open Runtime Control Center",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.showRuntimeLogs",
+        "title": "Show Runtime Logs",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.reconnect",
+        "title": "Reconnect to OpenCode Server",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.connectExternalServer",
+        "title": "Connect to Existing OpenCode Server",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.sendSelectionToOpencode",
+        "title": "Send Selection to OpenCode",
+        "category": "OpenCode"
+      },
+      {
+        "command": "opencodeCursorUI.interruptSession",
+        "title": "Interrupt OpenCode Session",
+        "category": "OpenCode"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "opencodeCursorUI.sendSelectionToOpencode",
+          "when": "editorHasSelection",
+          "group": "navigation@100"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "OpenCode Cursor UI",
+      "properties": {
+        "opencodeCursorUI.runtime.mode": {
+          "type": "string",
+          "enum": [
+            "managed",
+            "external"
+          ],
+          "default": "managed",
+          "description": "Managed: the extension installs and supervises a private OpenCode server. External: connect to an already-running OpenCode server."
+        },
+        "opencodeCursorUI.runtime.executablePath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to an existing OpenCode executable. Leave empty to auto-detect `opencode` on PATH."
+        },
+        "opencodeCursorUI.runtime.autoStart": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically start (or connect to) OpenCode when a trusted workspace opens."
+        },
+        "opencodeCursorUI.runtime.startupTimeoutMs": {
+          "type": "number",
+          "default": 30000,
+          "description": "How long to wait for the OpenCode server to accept connections."
+        },
+        "opencodeCursorUI.runtime.autoUpdate": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically update the managed OpenCode runtime when a new version is available."
+        },
+        "opencodeCursorUI.external.serverUrl": {
+          "type": "string",
+          "default": "",
+          "description": "URL of an external OpenCode server, e.g. http://127.0.0.1:4096. Used when runtime.mode is external."
+        },
+        "opencodeCursorUI.session.restoreLast": {
+          "type": "boolean",
+          "default": true,
+          "description": "Reopen the most recent conversation when the sidebar opens."
+        },
+        "opencodeCursorUI.editor.autoIncludeSelection": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically attach the current editor selection as context when sending a prompt."
+        },
+        "opencodeCursorUI.editor.includeDiagnostics": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include active editor diagnostics (problems) as prompt context."
+        },
+        "opencodeCursorUI.ui.showToolCalls": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show tool call activity in the conversation."
+        },
+        "opencodeCursorUI.ui.showFileChanges": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show file change summaries in the conversation."
+        },
+        "opencodeCursorUI.permissions.interactive": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show OpenCode permission requests in the sidebar for interactive approval."
+        },
+        "opencodeCursorUI.diff.useNativeDiff": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open file changes in VS Code's native diff editor when possible."
+        },
+        "opencodeCursorUI.log.level": {
+          "type": "string",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "default": "info",
+          "description": "Minimum log level for the OpenCode Cursor UI output channel."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build:host": "node esbuild.mjs",
+    "build:webview": "cd webview && vite build",
+    "build": "npm run typecheck && npm run build:webview && npm run build:host",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p webview/tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "package": "npm run build && vsce package --no-dependencies -o dist/opencode-cursor-ui.vsix"
+  },
+  "devDependencies": {
+    "@opencode/client": "^2.3.2",
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/vscode": "1.106.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vscode/vsce": "^3.2.0",
+    "esbuild": "^0.24.0",
+    "highlight.js": "^11.10.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^9.0.1",
+    "rehype-highlight": "^7.0.1",
+    "remark-gfm": "^4.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vitest": "^3.0.0",
+    "zod": "^3.24.1",
+    "zustand": "^5.0.2"
+  }
+}
