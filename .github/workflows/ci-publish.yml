@@ -47,11 +47,13 @@ jobs:
       - name: Compute next version from the latest tag
         id: ver
         run: |
-          LATEST=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
-          NEXT=$(node -e "const s='${LATEST#v}'.split('.'); s[2]=(+s[2]||0)+1; console.log('v'+s.join('.'))")
-          echo "next=$NEXT" >> "$GITHUB_OUTPUT"
-          echo "version=${NEXT#v}" >> "$GITHUB_OUTPUT"
-          echo "Publishing $NEXT (previous tag: $LATEST)"
+          TAG_VER=$(git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "0.0.0")
+          PKG_VER=$(node -p "require('./package.json').version")
+          BASE=$(printf '%s\n%s\n' "$TAG_VER" "$PKG_VER" | sort -V | tail -1)
+          NEXT=$(node -e "const s='$BASE'.split('.'); s[2]=(+s[2]||0)+1; console.log(s.join('.'))")
+          echo "next=v$NEXT" >> "$GITHUB_OUTPUT"
+          echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Publishing v$NEXT (base: $BASE)"
       - name: Stamp version
         run: npm version "${{ steps.ver.outputs.version }}" --no-git-tag-version
       - run: npm run build
